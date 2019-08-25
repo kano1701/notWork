@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3aa8dec0-9db2-4815-8a37-3f681646de2e" name="Default" comment="" />
+    <list default="true" id="3aa8dec0-9db2-4815-8a37-3f681646de2e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -102,6 +104,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="C:/OSPanel/domains/AppleApi/song.json" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\api" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -128,12 +135,12 @@
       <workItem from="1566588071979" duration="2913000" />
       <workItem from="1566641713087" duration="15251000" />
       <workItem from="1566665397627" duration="8591000" />
-      <workItem from="1566723563878" duration="13736000" />
+      <workItem from="1566723563878" duration="13983000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43674000" />
+    <option name="totallyTimeSpent" value="43921000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
