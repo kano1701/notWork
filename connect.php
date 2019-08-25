@@ -65,4 +65,27 @@ class Connect {
         $this->request($body1 . $body2 . $body3 );
     }
 
+    public function getAll($name) {
+
+        $resultAll = array();
+        $resultArtist = $this->getArtist($name);
+
+        while ( $rowArtist = mysqli_fetch_assoc($resultArtist) ) {
+
+            $resultAll[$rowArtist['artistId']] = $rowArtist;
+            $resultAlbum = $this->getAlbum($rowArtist['artistId']);
+
+            while ( $rowAlbum = mysqli_fetch_assoc($resultAlbum) ) {
+
+                $resultAll[$rowArtist['artistId']][$rowArtist['artistId']][$rowAlbum['collectionId']] = $rowAlbum;
+                $resultSong = $this->getSong($rowAlbum['collectionId']);
+
+                while ( $rowSong = mysqli_fetch_assoc($resultSong) ) {
+
+                    $resultAll[$rowArtist['artistId']][$rowArtist['artistId']][$rowAlbum['collectionId']][$rowAlbum['collectionId']][] = $rowSong;
+                }
+            }
+        }
+        return $resultAll;
+    }
 }

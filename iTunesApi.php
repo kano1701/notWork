@@ -7,8 +7,10 @@
  */
 
 require('connect.php');
+require('api.php');
 
 $myConnect = new Connect();
+$api = new Api();
 
 function RequestToApi($url) {
     $ch = curl_init($url);
@@ -22,70 +24,101 @@ $artistName = $_GET['artist'];
 
 $resultArtist = $myConnect->getArtist($artistName);
 
+
+
 if ( mysqli_num_rows($resultArtist) >= 1 ) {
 
     echo "из Базы Данных <br>";
 
-    while (  $rowArtist = mysqli_fetch_row($resultArtist) ) {
-
-        echo "<br>artistId: {$rowArtist[0]}  artistName: {$rowArtist[2]}";
-        $resultAlbum = $myConnect->getAlbum($rowArtist[0]);
-
-        if ( mysqli_num_rows($resultAlbum) >= 1 ) {
-
-            while ( $rowAlbum = mysqli_fetch_row($resultAlbum) ) {
-
-                echo "<br>collectionId: {$rowAlbum[0]}  collectionName: {$rowAlbum[2]}";
-                $resultSong = $myConnect->getSong($rowAlbum[0]);
-
-                if ( mysqli_num_rows($resultSong) >= 1 ) {
-
-                    while ( $rowSong = mysqli_fetch_row($resultSong) ) {
-                        $min = floor($rowSong[9] / 60000);
-                        $sec = ceil(($rowSong[9] - $min * 60000) / 1000);
-                        $trackTime = "{$min}:{$sec}";
-                        echo "<br>{$rowSong[8]})  {$rowSong[2]}  {$trackTime}";
-                    }
-                }
-            }
-        }
-    }
+    $result = $myConnect->getAll($artistName);
+//    while (  $rowArtist = mysqli_fetch_row($resultArtist) ) {
+//
+//        echo "<br>artistId: {$rowArtist[0]}  artistName: {$rowArtist[2]}";
+//        $resultAlbum = $myConnect->getAlbum($rowArtist[0]);
+//
+//        if ( mysqli_num_rows($resultAlbum) >= 1 ) {
+//
+//            while ( $rowAlbum = mysqli_fetch_row($resultAlbum) ) {
+//
+//                echo "<br>collectionId: {$rowAlbum[0]}  collectionName: {$rowAlbum[2]}";
+//                $resultSong = $myConnect->getSong($rowAlbum[0]);
+//
+//                if ( mysqli_num_rows($resultSong) >= 1 ) {
+//
+//                    while ( $rowSong = mysqli_fetch_row($resultSong) ) {
+//                        $min = floor($rowSong[9] / 60000);
+//                        $sec = ceil(($rowSong[9] - $min * 60000) / 1000);
+//                        $trackTime = "{$min}:{$sec}";
+//                        echo "<br>{$rowSong[8]})  {$rowSong[2]}  {$trackTime}";
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 } else {
 
     echo "из api iTunes <br>";
 
-    $artistName = str_replace(" ", "+", $artistName);
-    $url = "https://itunes.apple.com/search?term={$artistName}&entity=allArtist";
-    $artistInfo = RequestToApi($url);
+    $result = $api->getApi($artistName);
+//    $artistName = str_replace(" ", "+", $artistName);
+//    $url = "https://itunes.apple.com/search?term={$artistName}&entity=allArtist";
+//    $artistInfo = RequestToApi($url);
+//
+//    foreach ($artistInfo as $person) {
+//
+//        $myConnect->addArtist($person);
+//        echo "artistName: {$person['artistName']}<br> artistId: {$person['artistId']}<br>";
+//
+//        $url = "https://itunes.apple.com/lookup?id=" . $person["artistId"] . "&entity=album";
+//        $albums = RequestToApi($url);
+//        array_shift($albums);
+//
+//        foreach ($albums as $album) {
+//
+//            $myConnect->addAlbum($album);
+//            echo "<br> collectionName: " . $album["collectionName"] . "<br>";
+//            $url = "https://itunes.apple.com/lookup?id=" . $album["collectionId"] . "&entity=song";
+//            $albumSongs = RequestToApi($url);
+//            array_shift($albumSongs);
+//
+//            foreach ($albumSongs as $song) {
+//
+//                $myConnect->addSong($song);
+//                $min = floor($song["trackTimeMillis"] / 60000);
+//                $sec = ceil(($song["trackTimeMillis"] - $min * 60000) / 1000);
+//                echo "<br>trackName: {$song["trackName"]} trackTime {$min}:{$sec}";
+//
+//            }
+//            echo "<br>";
+//        }
+//        echo "<hr>";
+//    }
+}
 
-    foreach ($artistInfo as $person) {
+var_dump($result);
 
-        $myConnect->addArtist($person);
-        echo "artistName: {$person['artistName']}<br> artistId: {$person['artistId']}<br>";
+foreach ($result as $person) {
 
-        $url = "https://itunes.apple.com/lookup?id=" . $person["artistId"] . "&entity=album";
-        $albums = RequestToApi($url);
-        array_shift($albums);
+    echo "{$person['artistName']}<br>{$person['artistId']}<hr>";
 
-        foreach ($albums as $album) {
+    foreach ($person[$person['artistId']] as $album) {
 
-            $myConnect->addAlbum($album);
-            echo "<br> collectionName: " . $album["collectionName"] . "<br>";
-            $url = "https://itunes.apple.com/lookup?id=" . $album["collectionId"] . "&entity=song";
-            $albumSongs = RequestToApi($url);
-            array_shift($albumSongs);
+        echo "<br> {$album['collectionId']} {$album['collectionName']}<br>";
 
-            foreach ($albumSongs as $song) {
+        echo array_key_exists($album['collectionId'], $album);
 
-                $myConnect->addSong($song);
-                $min = floor($song["trackTimeMillis"] / 60000);
-                $sec = ceil(($song["trackTimeMillis"] - $min * 60000) / 1000);
-                echo "<br>trackName: {$song["trackName"]} trackTime {$min}:{$sec}";
+        if ( array_key_exists($album['collectionId'], $album) ) {
 
+            echo "<br>есть";
+
+            foreach ($album[$album['collectionId']] as $song) {
+
+                echo "    {$song['trackName']}<br>";
             }
-            echo "<br>";
+        } else {
+
+            echo "<br>нету";
         }
-        echo "<hr>";
     }
 }
