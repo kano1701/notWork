@@ -46,6 +46,7 @@ class Api {
                     }
                 }
             }
+            break;
         }
 
         return $resultAll;

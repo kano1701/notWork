@@ -17,7 +17,7 @@
 
     <div class="container">
         <form name="iTunes" action="iTunesApi.php">
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label for="">Исполнитель</label>
                 <input type="text" class="form-control" name="artist" id="artist" placeholder="Введите исполнителя">
             </div>

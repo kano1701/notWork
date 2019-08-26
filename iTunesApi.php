@@ -9,6 +9,8 @@
 require('connect.php');
 require('api.php');
 
+ini_set('max_execution_time', 900);
+
 $myConnect = new Connect();
 $api = new Api();
 $artistName = $_GET['artist'];
@@ -16,12 +18,12 @@ $resultArtist = $myConnect->getArtist($artistName);
 
 if ( mysqli_num_rows($resultArtist) >= 1 ) {
 
-    $status = "из Базы Данных <br>";
+    $status = "from data base <br>";
     $result = $myConnect->getAll($artistName);
 
 } else {
 
-    $status = "из api iTunes <br>";
+    $status = "from api iTunes <br>";
     $result = $api->getApi($artistName);
 
 }
@@ -42,16 +44,22 @@ if ( mysqli_num_rows($resultArtist) >= 1 ) {
 
         <?php
 
+        echo "status : {$status}";
+
         foreach ($result as $person) {
 
             echo "<h1>Artist: {$person['artistName']}</h1><h3>ID: {$person['artistId']}</h3>";
+            $myConnect->addArtist($person);
 
             foreach ($person[$person['artistId']] as $album) {
         ?>
 
         <div class="card mb-3">
             <div class="card-header">
-                <?php echo "<br> <h2>{$album['collectionName']}<h2>";?>
+                <?php
+                    $myConnect->addAlbum($album);
+                    echo "<br> <h2>{$album['collectionName']}<h2>";
+                ?>
             </div>
             <div class="card-body">
                 <?php
@@ -60,6 +68,7 @@ if ( mysqli_num_rows($resultArtist) >= 1 ) {
 
                     foreach ($album[$album['collectionId']] as $song) {
 
+                        $myConnect->addSong($song);
                         $min = floor($song['trackTimeMillis'] / 60000);
                         $sec = ceil(($song['trackTimeMillis'] - $min * 60000) / 1000);
                         $trackTime = "{$min}:{$sec}";
