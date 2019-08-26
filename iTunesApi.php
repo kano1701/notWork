@@ -73,39 +73,3 @@ if ( mysqli_num_rows($resultArtist) >= 1 ) {
 
 </body>
 </html>
-
-<!---->
-<!--<div class="card">-->
-<!--    <div class="card-header">-->
-<!--        Featured-->
-<!--    </div>-->
-<!--    <div class="card-body">-->
-<!--        <h5 class="card-title">Special title treatment</h5>-->
-<!--        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
-<!--        <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--    </div>-->
-<!--</div>-->
-<!---->
-<?php
-//
-//foreach ($result as $person) {
-//
-//    echo "<h1>{$person['artistName']}<br>{$person['artistId']}</h1>";
-//
-//    foreach ($person[$person['artistId']] as $album) {
-//
-//        echo "<br> <h2>{$album['collectionId']} {$album['collectionName']} <h2>";
-//
-//        echo "это" . array_key_exists($album['collectionId'], $album);
-//
-//        if ( array_key_exists($album['collectionId'], $album) ) {
-//
-//            foreach ($album[$album['collectionId']] as $song) {
-//
-//                echo "<h3>{$song['trackName']}<h3>";
-//            }
-//        }
-//    }
-//}
-//
-//?>
