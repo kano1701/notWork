@@ -1,5 +1,7 @@
 # iTunes
 
+решение в ветке AddClass
+
 запросы посылаемые к iTunesAPI
 
 для поиска исполнителя      $url = "https://itunes.apple.com/search?term={$name}&entity=allArtist";
