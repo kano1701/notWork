@@ -14,12 +14,16 @@
     <title>Поиск музыки</title>
 </head>
 <body>
-    <form name="iTunes" action="iTunesApi.php">
-        <div class="form-group">
-            <label for="">Исполнитель</label>
-            <input type="text" class="form-control" name="artist" id="artist" placeholder="Введите исполнителя">
-        </div>
-        <button type="submit" class="btn btn-primary">Поиск</button>
-    </form>
+
+    <div class="container">
+        <form name="iTunes" action="iTunesApi.php">
+            <div class="form-group">
+                <label for="">Исполнитель</label>
+                <input type="text" class="form-control" name="artist" id="artist" placeholder="Введите исполнителя">
+            </div>
+            <button type="submit" class="btn btn-primary">Поиск</button>
+        </form>
+    </div>
+
 </body>
 </html>
